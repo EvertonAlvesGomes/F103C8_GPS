@@ -1,0 +1,4 @@
+GPS.c:12:7:GPS_start_of_message	16	static
+GPS.c:22:7:GPS_is_GLL_message	24	static
+GPS.c:32:7:GPS_is_RMC_message	24	static
+GPS.c:42:7:GPS_is_GSA_message	24	static

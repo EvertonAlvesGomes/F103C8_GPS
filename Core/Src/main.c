@@ -23,6 +23,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include <string.h>
+#include "GPS.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -66,8 +68,11 @@ extern void initalise_monitor_handles(void); //function for print data on consol
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint8_t gps_data[100];
-	uint8_t i = 0;
+	char gps_data[100];
+	int i = 0;
+	float lat=0, longt=0;
+
+
 	initialise_monitor_handles();
 	printf("Iniciando GPS..\n");
   /* USER CODE END 1 */
@@ -102,14 +107,18 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
 	  HAL_UART_Receive(&huart1, gps_data, 100, HAL_MAX_DELAY);
-	  for(i = 0; i < 100; i++) {
-		  printf("%c", gps_data[i]);
-		  gps_data[i] = 0;
+	  if(GPS_is_GLL_message(gps_data)) {
+		  puts("GLL Message was found\n");
 	  }
-	  //printf("%d\n", gps_data);
-	  printf("\n");
-	  //HAL_Delay(100);
+	  else if(GPS_is_RMC_message(gps_data)) {
+		  puts("RMC Message was found\n");
+	  }
+	  else if(GPS_is_GSA_message(gps_data)) {
+		  puts("GSA Message was found\n");
+	  }
+	  puts(gps_data);
   }
   /* USER CODE END 3 */
 }
